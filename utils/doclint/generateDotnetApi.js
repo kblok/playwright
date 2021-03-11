@@ -472,7 +472,7 @@ function renderMethod(member, parent, output, name) {
 
           return -1;
         })
-      . forEach(parseArg);
+        .forEach(parseArg);
       return;
     }
 
