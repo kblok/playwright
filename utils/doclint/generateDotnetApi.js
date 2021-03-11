@@ -461,9 +461,18 @@ function renderMethod(member, parent, output, name) {
 
   let parseArg = (/** @type {Documentation.Member} */ arg) => {
     if (arg.name === "options") {
-      arg.type.properties.forEach(prop => {
-        parseArg(prop);
-      });
+      arg.type.properties
+        .sort((a, b) => {
+          if (a.name === 'timeout' && b.name !== 'force' && b.name !== 'noWaitAfter')
+            return 1;
+          if (a.name === 'force' && b.name !== 'noWaitAfter')
+            return 1;
+          if (a.name === 'noWaitAfter')
+            return 1;
+
+          return -1;
+        })
+      . forEach(parseArg);
       return;
     }
 
