@@ -460,17 +460,11 @@ function renderMethod(member, parent, output, name) {
   };
 
   let parseArg = (/** @type {Documentation.Member} */ arg) => {
+    const fixedArguments = ['timeout', 'force', 'noWaitAfter'];
+
     if (arg.name === "options") {
       arg.type.properties
-        .sort((a, b) => {
-          if (a.name === 'timeout' && b.name !== 'force' && b.name !== 'noWaitAfter')
-            return 1;
-          if (a.name === 'force' && b.name !== 'noWaitAfter')
-            return 1;
-          if (a.name === 'noWaitAfter')
-            return 1;
-          return -1;
-        })
+        .sort((a, b) => fixedArguments.indexOf(a.name) - fixedArguments.indexOf(b.name))
         .forEach(parseArg);
       return;
     }
